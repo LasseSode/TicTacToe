@@ -94,6 +94,9 @@ public class AI {
             blockMove();
         }
         if(nrOfMoves==1){
+            predictForkMove(roundNo);
+        }
+        if(nrOfMoves==1){
             randomMove();
         }
 
@@ -213,93 +216,26 @@ public class AI {
         }
     }
 
-    public void predictForkMove(){
-        //if opposite corners
-        //some code
-        
-        //columns
-        for (int i = 0; i < 3; i++) {
-            for (int n = i; n <= 8; n += 3) {
-                findValues(n);
-            }
-            if(numberOfNothing==2 && numberOfX==1) {
-                //Check if box is empty and check rows containing this element and
-                // potentially diagonals
-                for (int j = i; j <= 8; j += 3) {
-                    if(fields.get(j).getText().equals("")){
-                        resetNumbers();
-                        //Checks diagonals
-                        if(j==0 || j==8){
-                            for(int k=0; k<=8; k+=4){
-                                findValues(k);
-                            }
-                            for(int k=0; k<=8; k+=4){
-                                if(numberOfNothing==2 && numberOfX == 1){
-                                    fields.get(j).setText("o");
-                                    fields.get(j).setEnabled(false);
-                                    nrOfMoves--;
-                                }
-                            }
-                            resetNumbers();
-                        }
-                        else if(j==6 || j==2){
-                            for(int l=2; l<=6; l+=2){
-                                findValues(l);
-                            }
-                            for(int l=2; l<=6; l+=2){
-                                if(numberOfNothing==2 && numberOfX == 1) {
-                                    fields.get(j).setText("o");
-                                    fields.get(j).setEnabled(false);
-                                    nrOfMoves--;
-                                }
-                            }
-                            resetNumbers();
-                        }
-                        //Check rows
-                        if(nrOfMoves==1) {
-                            //a blank is in the upper row. Check if forkable and insert if it is.
-                            if (j == 0 || j == 1 || j == 2) {
-                                for (int z = 0; z < 3; z++) {
-                                    findValues(z);
-                                }
-                                if (numberOfNothing == 2 && numberOfX == 1) {
-                                    fields.get(j).setText("o");
-                                    fields.get(j).setEnabled(false);
-                                    nrOfMoves--;
-                                }
-                                resetNumbers();
-                            }
-                            //a blank is in second row. Check if forkable and insert if it is.
-                            else if(j==3 || j==4 || j==5){
-                                for (int z = 3; z < 6; z++) {
-                                    findValues(z);
-                                }
-                                if (numberOfNothing == 2 && numberOfX == 1) {
-                                    fields.get(j).setText("o");
-                                    fields.get(j).setEnabled(false);
-                                    nrOfMoves--;
-                                }
-                                resetNumbers();
-                            }
-                            //if a blank is in the third row
-                            else{
-                                for (int z = 6; z < 9; z++) {
-                                    findValues(z);
-                                }
-                                if (numberOfNothing == 2 && numberOfX == 1) {
-                                    fields.get(j).setText("o");
-                                    fields.get(j).setEnabled(false);
-                                    nrOfMoves--;
-                                }
-                                resetNumbers();
-                            }
-                        }
-                    }
+    public void predictForkMove(int roundNo){
+        //if opposite corners (from 0 - 8)
+        if(nrOfMoves==1) {
+            if (roundNo == 3) {
+                if (fields.get(0).getText().equals("x") && fields.get(4).getText().equals("o") && fields.get(8).getText().equals("x")) {
+                    //insert in an edge position
+                    fields.get(7).setText("o");
+                    fields.get(7).setEnabled(false);
+                    nrOfMoves--;
+                }
+                //if it is the other diagonal
+                else if (fields.get(2).getText().equals("x") && fields.get(4).getText().equals("o") && fields.get(6).getText().equals("x")) {
+                    //insert in an edge position
+                    fields.get(7).setText("o");
+                    fields.get(7).setEnabled(false);
+                    nrOfMoves--;
                 }
             }
-            resetNumbers();
         }
-        //Check rows combined with diagonals
+//Check rows combined with diagonals
         if(nrOfMoves==1){
             for (int y = 0; y <= 8; y += 3) {
                 for (int z = y; z <= y+2; z++) {
@@ -342,6 +278,92 @@ public class AI {
                 resetNumbers();
             }
         }
+
+        //columns
+        if(nrOfMoves==1) {
+            for (int i = 0; i < 3; i++) {
+                for (int n = i; n <= 8; n += 3) {
+                    findValues(n);
+                }
+                if (numberOfNothing == 2 && numberOfX == 1) {
+                    //Check if box is empty and check rows containing this element and
+                    // potentially diagonals
+                    for (int j = i; j <= 8; j += 3) {
+                        if (fields.get(j).getText().equals("")) {
+                            resetNumbers();
+                            //Checks diagonals
+                            if(nrOfMoves==1) {
+                                if (j == 0 || j == 8) {
+                                    for (int k = 0; k <= 8; k += 4) {
+                                        findValues(k);
+                                    }
+                                    for (int k = 0; k <= 8; k += 4) {
+                                        if (numberOfNothing == 2 && numberOfX == 1) {
+                                            fields.get(j).setText("o");
+                                            fields.get(j).setEnabled(false);
+                                            nrOfMoves--;
+                                        }
+                                    }
+                                    resetNumbers();
+                                } else if (j == 6 || j == 2) {
+                                    for (int l = 2; l <= 6; l += 2) {
+                                        findValues(l);
+                                    }
+                                    for (int l = 2; l <= 6; l += 2) {
+                                        if (numberOfNothing == 2 && numberOfX == 1) {
+                                            fields.get(j).setText("o");
+                                            fields.get(j).setEnabled(false);
+                                            nrOfMoves--;
+                                        }
+                                    }
+                                    resetNumbers();
+                                }
+                            }
+                            //Check rows
+                            if (nrOfMoves == 1) {
+                                //a blank is in the upper row. Check if forkable and insert if it is.
+                                if (j == 0 || j == 1 || j == 2) {
+                                    for (int z = 0; z < 3; z++) {
+                                        findValues(z);
+                                    }
+                                    if (numberOfNothing == 2 && numberOfX == 1) {
+                                        fields.get(j).setText("o");
+                                        fields.get(j).setEnabled(false);
+                                        nrOfMoves--;
+                                    }
+                                    resetNumbers();
+                                }
+                                //a blank is in second row. Check if forkable and insert if it is.
+                                else if (j == 3 || j == 4 || j == 5) {
+                                    for (int z = 3; z < 6; z++) {
+                                        findValues(z);
+                                    }
+                                    if (numberOfNothing == 2 && numberOfX == 1) {
+                                        fields.get(j).setText("o");
+                                        fields.get(j).setEnabled(false);
+                                        nrOfMoves--;
+                                    }
+                                    resetNumbers();
+                                }
+                                //if a blank is in the third row
+                                else {
+                                    for (int z = 6; z < 9; z++) {
+                                        findValues(z);
+                                    }
+                                    if (numberOfNothing == 2 && numberOfX == 1) {
+                                        fields.get(j).setText("o");
+                                        fields.get(j).setEnabled(false);
+                                        nrOfMoves--;
+                                    }
+                                    resetNumbers();
+                                }
+                            }
+                        }
+                    }
+                }
+                resetNumbers();
+            }
+        }
     }
 
     /**
@@ -357,6 +379,7 @@ public class AI {
         int index = indices.get(random.nextInt(indices.size()));
         fields.get(index).setText("o");
         fields.get(index).setEnabled(false);
+        nrOfMoves--;
     }
 
 
