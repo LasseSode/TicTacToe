@@ -22,7 +22,8 @@ public class AI {
         String value = fields.get(i).getText();
         if (value.equals("o")) {
             numberOfO++;
-            
+
+
         }
         if (value.equals("")) {
             numberOfNothing++;
