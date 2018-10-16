@@ -168,5 +168,6 @@ public class TicTacToeGUI{
      */
     public static void main(String[] args) {
         TicTacToeGUI t = new TicTacToeGUI();
-    } 
+        System.out.println("HEJ LASSE");
+    }
 }
