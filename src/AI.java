@@ -24,6 +24,7 @@ public class AI {
             numberOfO++;
 
 
+
         }
         if (value.equals("")) {
             numberOfNothing++;
