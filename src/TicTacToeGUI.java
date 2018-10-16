@@ -167,6 +167,6 @@ public class TicTacToeGUI{
      * @param args
      */
     public static void main(String[] args) {
-        TicTacToeGUI t = new TicTacToeGUI();
+        TicTacToeGUI t = new TicTacToeGUI(); 
     }
 }
