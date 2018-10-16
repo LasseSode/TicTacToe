@@ -214,6 +214,9 @@ public class AI {
     }
 
     public void predictForkMove(){
+        //if opposite corners
+        //some code
+        
         //columns
         for (int i = 0; i < 3; i++) {
             for (int n = i; n <= 8; n += 3) {
@@ -278,6 +281,7 @@ public class AI {
                                 }
                                 resetNumbers();
                             }
+                            //if a blank is in the third row
                             else{
                                 for (int z = 6; z < 9; z++) {
                                     findValues(z);
@@ -294,6 +298,49 @@ public class AI {
                 }
             }
             resetNumbers();
+        }
+        //Check rows combined with diagonals
+        if(nrOfMoves==1){
+            for (int y = 0; y <= 8; y += 3) {
+                for (int z = y; z <= y+2; z++) {
+                    findValues(z);
+                }
+                if(numberOfNothing == 2 && numberOfX == 1){
+                    for (int z = y; z <= y+2; z++) {
+                        if(fields.get(z).getText().equals("")){
+                            resetNumbers();
+                            //Check diagonals
+                            if(z==0 || z==8){
+                                for(int k=0; k<=8; k+=4){
+                                    findValues(k);
+                                }
+                                for(int k=0; k<=8; k+=4){
+                                    if(numberOfNothing==2 && numberOfX == 1){
+                                        fields.get(z).setText("o");
+                                        fields.get(z).setEnabled(false);
+                                        nrOfMoves--;
+                                    }
+                                }
+                                resetNumbers();
+                            }
+                            else if(z==6 || z==2){
+                                for(int l=2; l<=6; l+=2){
+                                    findValues(l);
+                                }
+                                for(int l=2; l<=6; l+=2){
+                                    if(numberOfNothing==2 && numberOfX == 1) {
+                                        fields.get(z).setText("o");
+                                        fields.get(z).setEnabled(false);
+                                        nrOfMoves--;
+                                    }
+                                }
+                                resetNumbers();
+                            }
+                        }
+                    }
+                }
+                resetNumbers();
+            }
         }
     }
 
