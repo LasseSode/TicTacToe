@@ -18,7 +18,7 @@ public class TicTacToeGUI{
      * Creates a TicTacToeGUI object and thereby a tic tac toe game
      */
     public TicTacToeGUI(){
-        ai = new AI();
+        ai = new AI(Difficulty.INSANE);
         buttons = new ArrayList<>();
         roundNo=0;
         frame = new JFrame("Tic tac toe");
@@ -155,7 +155,7 @@ public class TicTacToeGUI{
      */
     public void resetGame(){
         roundNo = 0;
-        ai = new AI();
+        ai = new AI(Difficulty.INSANE);
         buttons = new ArrayList<>();
         frame.getContentPane().removeAll();
         addBoxes();

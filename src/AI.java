@@ -5,13 +5,25 @@ import javax.swing.*;
  * An AI class that computes moves and can check if anyone has won.
  */
 public class AI {
+    private Difficulty diff;
     private int numberOfO = 0;
     private int numberOfNothing = 0;
     private int numberOfX = 0;
-     private int nrOfMoves = 1;
+    private int nrOfMoves = 1;
 
-     private Random random;
+    private Random random;
     private ArrayList<JButton> fields = new ArrayList<>();
+
+    public AI(Difficulty diff) {
+        this.diff = diff;
+    }
+
+    /**
+     * Sets the difficulty/intelligence of the AI
+     */
+    public void setDiff(Difficulty diff) {
+        this.diff = diff;
+    }
 
     /**
      * Counts number of x's, o's and empty strings.
@@ -72,41 +84,43 @@ public class AI {
             return fields;
         }
 
-        //if player starts
-        if (roundNo == 1) {
-            //Player starts in middle
-            if (fields.get(4).getText().equals("x")) {
-                fields.get(0).setText("o");
-                fields.get(0).setEnabled(false);
-                nrOfMoves=0;
-            } else {
-                fields.get(4).setText("o");
-                fields.get(4).setEnabled(false);
-                nrOfMoves=0;
+        if(diff == Difficulty.MEDIUM || diff == Difficulty.HARD || diff == Difficulty.INSANE){
+            //if player starts
+            if (roundNo == 1) {
+                //Player starts in middle
+                if (fields.get(4).getText().equals("x")) {
+                    fields.get(0).setText("o");
+                    fields.get(0).setEnabled(false);
+                    nrOfMoves=0;
+                } else {
+                    fields.get(4).setText("o");
+                    fields.get(4).setEnabled(false);
+                    nrOfMoves=0;
+                }
+                return fields;
             }
-            return fields;
+
+            if(nrOfMoves==1) {
+                winMove();
+            }
         }
 
-        if(nrOfMoves==1) {
-            winMove();
+        if(diff == Difficulty.HARD || diff == Difficulty.INSANE) {
+            if (nrOfMoves == 1) {
+                blockMove();
+            }
         }
-        if(nrOfMoves==1){
-            blockMove();
+
+        if(diff == Difficulty.INSANE) {
+            if (nrOfMoves == 1) {
+                predictForkMove(roundNo);
+            }
         }
-        if(nrOfMoves==1){
-            predictForkMove(roundNo);
-        }
+
         if(nrOfMoves==1){
             randomMove();
         }
 
-        if (roundNo == 2) {
-
-        }
-
-        if (roundNo == 3) {
-
-        }
         return fields;
     }
 
