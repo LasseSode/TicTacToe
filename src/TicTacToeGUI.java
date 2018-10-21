@@ -13,12 +13,14 @@ public class TicTacToeGUI{
     private int roundNo;
     private ArrayList<JButton> buttons;
     private AI ai;
+    private Difficulty diff;
 
     /**
      * Creates a TicTacToeGUI object and thereby a tic tac toe game
      */
-    public TicTacToeGUI(){
-        ai = new AI(Difficulty.INSANE);
+    public TicTacToeGUI(Difficulty diff){
+        this.diff = diff;
+        ai = new AI(this.diff);
         buttons = new ArrayList<>();
         roundNo=0;
         frame = new JFrame("Tic tac toe");
@@ -155,7 +157,7 @@ public class TicTacToeGUI{
      */
     public void resetGame(){
         roundNo = 0;
-        ai = new AI(Difficulty.INSANE);
+        ai = new AI(diff);
         buttons = new ArrayList<>();
         frame.getContentPane().removeAll();
         addBoxes();
@@ -167,6 +169,6 @@ public class TicTacToeGUI{
      * @param args
      */
     public static void main(String[] args) {
-        TicTacToeGUI t = new TicTacToeGUI();
+        TicTacToeGUI t = new TicTacToeGUI(Difficulty.INSANE);
     }
 }

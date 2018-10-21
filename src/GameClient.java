@@ -12,7 +12,7 @@ public class GameClient {
     private JPanel emptyPanel;
     private JLabel title;
     private JComboBox<String> gameType;
-    private JComboBox<String> difficulty;
+    private JComboBox<Difficulty> difficulty;
 
     public GameClient(){
         frame = new JFrame("Classic games");
@@ -39,6 +39,12 @@ public class GameClient {
         difficulty = new JComboBox<>(addDifficulties());
         mainPanel.add(difficulty);
 
+        JButton start = new JButton("Start");
+        contentPane.add(start, BorderLayout.SOUTH);
+
+        start.addActionListener(e ->{
+                    new TicTacToeGUI(((Difficulty) difficulty.getSelectedItem()));
+                });
         frame.setVisible(true);
     }
 
@@ -47,10 +53,12 @@ public class GameClient {
         return games;
     }
 
-    public String[] addDifficulties(){
-        String[] difficulties = {"Easy","Medium","Hard","Insane"};
+    public Difficulty[] addDifficulties(){
+        Difficulty[] difficulties = {Difficulty.EASY, Difficulty.MEDIUM, Difficulty.HARD, Difficulty.INSANE};
         return difficulties;
     }
+
+
 
     public static void main(String[] args) {
         new GameClient();
