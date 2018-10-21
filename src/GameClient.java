@@ -9,7 +9,8 @@ import javax.swing.*;
 public class GameClient {
     private JFrame frame;
     private JPanel mainPanel;
-    private JPanel emptyPanel;
+    private JPanel emptyPanel2;
+    private JPanel emptyPanel1;
     private JLabel title;
     private JComboBox<String> gameType;
     private JComboBox<Difficulty> difficulty;
@@ -17,30 +18,38 @@ public class GameClient {
     public GameClient(){
         frame = new JFrame("Classic games");
         JPanel contentPane = (JPanel)frame.getContentPane();
-        contentPane.setLayout(new BorderLayout());
+        contentPane.setLayout(new BorderLayout(100, 20));
         frame.setMinimumSize(new Dimension(500,500));
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         title = new JLabel("Classic Games");
         title.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 32));
         contentPane.add(title, BorderLayout.NORTH);
 
-        emptyPanel = new JPanel();
-        emptyPanel.setMinimumSize(new Dimension(100,500));
-        contentPane.add(emptyPanel, BorderLayout.WEST);
-        contentPane.add(emptyPanel, BorderLayout.EAST);
+        emptyPanel1 = new JPanel();
+        emptyPanel1.setMinimumSize(new Dimension(100,500));
+        contentPane.add(emptyPanel1, BorderLayout.WEST);
+
+        emptyPanel2 = new JPanel();
+        emptyPanel2.setMinimumSize(new Dimension(100,500));
+        contentPane.add(emptyPanel2, BorderLayout.EAST);
 
         mainPanel= new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
         contentPane.add(mainPanel, BorderLayout.CENTER);
 
+        mainPanel.add(new JLabel("Choose the game type:"));
+
         gameType = new JComboBox<>(addGames());
         mainPanel.add(gameType);
+
+        mainPanel.add(new JLabel("Choose the difficulty:"));
 
         difficulty = new JComboBox<>(addDifficulties());
         mainPanel.add(difficulty);
 
         JButton start = new JButton("Start");
-        contentPane.add(start, BorderLayout.SOUTH);
+        mainPanel.add(start, BorderLayout.SOUTH);
 
         start.addActionListener(e ->{
                     new TicTacToeGUI(((Difficulty) difficulty.getSelectedItem()));

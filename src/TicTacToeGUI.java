@@ -28,11 +28,7 @@ public class TicTacToeGUI{
         frame.setMinimumSize(new Dimension(300,300));
 
         //closes program when pressing x
-        frame.addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent windowEvent){
-                System.exit(0);
-            }
-        });
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         addBoxes();
 
         frame.setVisible(true);
@@ -148,7 +144,7 @@ public class TicTacToeGUI{
             resetGame();
         }
         else{
-            System.exit(0);
+            frame.dispose();
         }
     }
 
