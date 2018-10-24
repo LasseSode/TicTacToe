@@ -2,6 +2,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 /**
  * The client class where users can select a game and difficulty.
@@ -22,8 +23,8 @@ public class GameClient {
         frame.setMinimumSize(new Dimension(500,500));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        title = new JLabel("Classic Games");
-        title.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 32));
+        title = new JLabel("Classic Games", SwingConstants.CENTER);
+        title.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 36));
         contentPane.add(title, BorderLayout.NORTH);
 
         emptyPanel1 = new JPanel();
@@ -35,26 +36,35 @@ public class GameClient {
         contentPane.add(emptyPanel2, BorderLayout.EAST);
 
         mainPanel= new JPanel();
-        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         contentPane.add(mainPanel, BorderLayout.CENTER);
 
-        mainPanel.add(new JLabel("Choose the game type:"));
+        mainPanel.add(setupLabel("Choose the game type:"));
 
         gameType = new JComboBox<>(addGames());
         mainPanel.add(gameType);
 
-        mainPanel.add(new JLabel("Choose the difficulty:"));
+
+        mainPanel.add(setupLabel("Choose the difficulty:"));
 
         difficulty = new JComboBox<>(addDifficulties());
         mainPanel.add(difficulty);
 
+
         JButton start = new JButton("Start");
-        mainPanel.add(start, BorderLayout.SOUTH);
+        frame.add(start, BorderLayout.SOUTH);
 
         start.addActionListener(e ->{
                     new TicTacToeGUI(((Difficulty) difficulty.getSelectedItem()));
                 });
         frame.setVisible(true);
+    }
+
+    public JLabel setupLabel(String text){
+        JLabel label = new JLabel(text);
+        label.setFont(new Font(Font.SANS_SERIF,Font.PLAIN,20));
+        label.setHorizontalAlignment(SwingConstants.LEFT);
+        return label;
     }
 
     public String[] addGames(){
