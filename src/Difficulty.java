@@ -1,3 +1,3 @@
 public enum Difficulty {
-    EASY,MEDIUM,HARD,INSANE
+    EASY,MEDIUM,HARD,INSANE, OneVsOne
 }

@@ -73,7 +73,7 @@ public class GameClient {
     }
 
     public Difficulty[] addDifficulties(){
-        Difficulty[] difficulties = {Difficulty.EASY, Difficulty.MEDIUM, Difficulty.HARD, Difficulty.INSANE};
+        Difficulty[] difficulties = {Difficulty.EASY, Difficulty.MEDIUM, Difficulty.HARD, Difficulty.INSANE, Difficulty.OneVsOne};
         return difficulties;
     }
 

@@ -92,11 +92,19 @@ public class TicTacToeGUI{
         b.setFont(new Font(Font.SANS_SERIF,Font.PLAIN,36));
         b.setMinimumSize(new Dimension(100,100));
         b.addActionListener(e -> {
+            if (roundNo%2 == 0){
             b.setText("x");
             b.setEnabled(false);
             roundNo++;
             updateGUI();
             AITurn();
+            } else{
+                b.setText("o");
+                b.setEnabled(false);
+                roundNo++;
+                updateGUI();
+                AITurn();
+            }
         });
         buttons.add(b);
     }
@@ -106,11 +114,12 @@ public class TicTacToeGUI{
      * It will compute a move if the game is not yet finished
      */
     public void AITurn(){
+        if (!diff.equals(Difficulty.OneVsOne)){
         if(!isGameFinished()) {
             buttons = ai.computeMove(buttons, roundNo);
             updateGUI();
             roundNo++;
-        }
+        }}
         isGameFinished();
     }
 
