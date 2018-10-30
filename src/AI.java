@@ -4,7 +4,7 @@ import javax.swing.*;
 /**
  * An AI class that computes moves and can check if anyone has won.
  */
-public class AI {
+public class AI{
     private Difficulty diff;
     private int numberOfO = 0;
     private int numberOfNothing = 0;
@@ -108,6 +108,12 @@ public class AI {
         if(diff == Difficulty.HARD || diff == Difficulty.INSANE) {
             if (nrOfMoves == 1) {
                 blockMove();
+            }
+        }
+
+        if(diff == Difficulty.INSANE){
+            if(nrOfMoves==1){
+                forkMove();
             }
         }
 
@@ -229,6 +235,8 @@ public class AI {
             resetNumbers();
         }
     }
+
+    public void forkMove(){};
 
     public void predictForkMove(int roundNo){
         //if opposite corners (from 0 - 8)
