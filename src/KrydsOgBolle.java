@@ -95,11 +95,20 @@ public class KrydsOgBolle{
         b.setMinimumSize(new Dimension(100,100));
         b.addActionListener(e -> {
             if(!removing) {
-                b.setText("x");
-                b.setEnabled(false);
-                roundNo++;
-                updateGUI();
-                AITurn();
+                if(roundNo%2==0) {
+                    b.setText("x");
+                    b.setEnabled(false);
+                    roundNo++;
+                    updateGUI();
+                    AITurn();
+                }
+                else{
+                    b.setText("o");
+                    b.setEnabled(false);
+                    roundNo++;
+                    updateGUI();
+                    AITurn();
+                }
             }
             else{
                 b.setText("");
@@ -132,13 +141,15 @@ public class KrydsOgBolle{
      * It will compute a move if the game is not yet finished
      */
     public void AITurn(){
-        if(!isGameFinished()) {
-            if(roundNo>=7) {
-                buttons = ai.computeRemove(buttons, roundNo);
+        if(!diff.equals(Difficulty.OneVsOne)) {
+            if (!isGameFinished()) {
+                if (roundNo >= 7) {
+                    buttons = ai.computeRemove(buttons, roundNo);
+                }
+                buttons = ai.computeMove(buttons, roundNo);
+                updateGUI();
+                roundNo++;
             }
-            buttons = ai.computeMove(buttons, roundNo);
-            updateGUI();
-            roundNo++;
         }
         if(!isGameFinished()&&roundNo>=6) {
             removeMark();
@@ -151,8 +162,14 @@ public class KrydsOgBolle{
      */
     public void removeMark(){
         for(JButton b : buttons){
-            if(!b.isEnabled() && b.getText().equals("x")){
-                b.setEnabled(true);
+            if(!b.isEnabled()){
+                if (roundNo%2 == 0)
+                switch (b.getText()){
+                    case "x" :
+                        b.setEnabled(true);
+                        break;
+            } else if (b.getText().equals("o")) {b.setEnabled(true);
+                }
             }
             else if(b.isEnabled()){
                 b.setEnabled(false);

@@ -13,7 +13,7 @@ public class AIKrydsOgBolleImpl extends AI{
 
     }
 
-    
+
     public ArrayList<JButton> computeRemove(ArrayList<JButton> buttons, int roundNo) {
         return buttons;
     }

@@ -55,7 +55,14 @@ public class GameClient {
         frame.add(start, BorderLayout.SOUTH);
 
         start.addActionListener(e ->{
-                    new TicTacToeGUI(((Difficulty) difficulty.getSelectedItem()));
+            if(gameType.getSelectedItem().equals("Tic Tac Toe")) {
+                new TicTacToeGUI(((Difficulty) difficulty.getSelectedItem()));
+            } else if(gameType.getSelectedItem().equals("Yatzy")) {
+                new YatzySheet();
+            }
+            else {
+                new KrydsOgBolle(((Difficulty) difficulty.getSelectedItem()));
+            }
                 });
         frame.setVisible(true);
     }
@@ -68,7 +75,7 @@ public class GameClient {
     }
 
     public String[] addGames(){
-        String[] games = {"Tic Tac Toe"};
+        String[] games = {"Tic Tac Toe", "Kryds og Bolle", "Yatzy"};
         return games;
     }
 

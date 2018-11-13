@@ -42,6 +42,10 @@ public class TicTacToeGUI{
         frame.repaint();
     }
 
+    public int getRoundNo() {
+        return roundNo;
+    }
+
     /**
      * Adds the buttons/boxes to the frame. This is the grid of the GUI.
      */
