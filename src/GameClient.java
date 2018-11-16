@@ -64,6 +64,9 @@ public class GameClient {
                 new KrydsOgBolle(((Difficulty) difficulty.getSelectedItem()));
             }
                 });
+        Toolkit tk = Toolkit.getDefaultToolkit();
+        Dimension screenSize = tk.getScreenSize();
+        frame.setLocation(screenSize.width/2-frame.getWidth()/2, screenSize.height/2-frame.getHeight()/2);
         frame.setVisible(true);
     }
 

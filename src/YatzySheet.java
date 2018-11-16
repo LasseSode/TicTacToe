@@ -19,20 +19,10 @@ public class YatzySheet {
      */
     public YatzySheet() {
         players = new ArrayList<>();
-
-        Toolkit tk = Toolkit.getDefaultToolkit();
-        Dimension screenSize = tk.getScreenSize();
-
         makeFrame();
-        makeCategoryPanel();
-
-        makeMenuBar();
-
-        frame.setLocation(screenSize.width/2-frame.getWidth()/2, screenSize.height/2-frame.getHeight()/2);
-        frame.setVisible(true);
         //TEMPORARY IMPLEMENTATION - IMPLEMENT SO ONLY INTEGER VALUES ARE ALLOWED
         bonusLine=84;
-        bonusLine=Integer.parseInt(JOptionPane.showInputDialog("When does a player receive the bonus? (+84 by default)"));
+        getBonusLine();
     }
 
     /**
@@ -48,6 +38,16 @@ public class YatzySheet {
             return l;
         };
         frame.add(makePanel("",function));
+    }
+
+    /**
+     * Let the user set the bonus line
+     */
+    public void getBonusLine(){
+        String s = JOptionPane.showInputDialog("When does a player receive the bonus? (+84 by default)");
+        if(s!=null){
+            bonusLine=Integer.parseInt(s);    
+        };
     }
 
     /**
@@ -84,10 +84,18 @@ public class YatzySheet {
         frame = new JFrame("Yatzy");
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setLayout();
-
+        makeCategoryPanel();
+        makeMenuBar();
+        Toolkit tk = Toolkit.getDefaultToolkit();
+        Dimension screenSize = tk.getScreenSize();
+        frame.setLocation(screenSize.width/2-frame.getWidth()/2, screenSize.height/2-frame.getHeight()/2);
         frame.pack();
+        frame.setVisible(true);
     }
 
+    /**
+     * Creates the menuBar
+     */
     public void makeMenuBar(){
         JMenuBar menuBar = new JMenuBar();
         frame.setJMenuBar(menuBar);
