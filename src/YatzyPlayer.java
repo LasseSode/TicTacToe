@@ -61,4 +61,6 @@ public class YatzyPlayer {
         return points.get(i);
     }
 
+    public List<JTextField> getTextFields(){return points;}
+
 }

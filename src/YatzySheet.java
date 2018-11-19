@@ -1,15 +1,17 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 import java.util.*;
 import javax.swing.border.*;
 import java.util.List;
+import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 /**
  * This class represents a yatzy sheet
  * Players can fill in points and press a button to eventually calculate the winner
  */
-public class YatzySheet {
+public class YatzySheet implements KeyListener {
     private ArrayList<YatzyPlayer> players;
     private JFrame frame;
     private int bonusLine;
@@ -46,7 +48,7 @@ public class YatzySheet {
     public void getBonusLine(){
         String s = JOptionPane.showInputDialog("When does a player receive the bonus? (+84 by default)");
         if(s!=null){
-            bonusLine=Integer.parseInt(s);    
+            bonusLine=Integer.parseInt(s);
         };
     }
 
@@ -132,6 +134,7 @@ public class YatzySheet {
             JTextField tf = new JTextField("");
             player.addPoints(tf);
             tf.setBorder(new LineBorder(Color.BLACK));
+            tf.addKeyListener(this);
             return tf;
         };
         setLayout();
@@ -203,6 +206,117 @@ public class YatzySheet {
         }
         frame.revalidate();
         frame.repaint();
+    }
+
+    public void keyPressed(KeyEvent e) {
+
+        int key = e.getKeyCode();
+
+        if (key == KeyEvent.VK_LEFT) {
+            BiConsumer<Integer, Integer> func = (i,j)->{
+                if(i>0){
+                    moveFocusLeft(i,j);
+                }
+                else{
+                    moveFocusLeft(i,j);
+                    moveFocusUp(players.size()-1,j);
+                }
+            };
+            moveFocus(func);
+        }
+
+        if (key == KeyEvent.VK_RIGHT) {
+            BiConsumer<Integer, Integer> func = (i,j)->{
+                if(i<players.size()-1){
+                    moveFocusRight(i,j);
+                }
+                else{
+                    moveFocusRight(i,j);
+                    moveFocusDown(0,j);
+                }
+            };
+            moveFocus(func);
+        }
+
+        if (key == KeyEvent.VK_UP) {
+            BiConsumer<Integer, Integer> func = (i,j)->{
+                moveFocusUp(i,j);
+            };
+            moveFocus(func);
+        }
+
+        if (key == KeyEvent.VK_DOWN) {
+            BiConsumer<Integer, Integer> func = (i,j)->{
+                moveFocusDown(i,j);
+            };
+            moveFocus(func);
+        }
+    }
+
+
+    public void moveFocusLeft(int i, int j){
+        if (i>0){
+            basicFocusMove(i,j,0,-1);
+        }
+        else{
+            basicFocusMove(i,j,0,players.size()-1);
+        }
+    }
+
+    public void moveFocusRight(int i, int j){
+        if (i<players.size()-1){
+            basicFocusMove(i,j,0,1);
+        }
+        else{
+            basicFocusMove(i,j,0,-(players.size()-1));
+        }
+    }
+
+    public void moveFocusUp(int i, int j){
+        if (j>0){
+            basicFocusMove(i,j,-1,0);
+        }
+        else{
+            basicFocusMove(i,j,0,0);
+        }
+    }
+
+    public void moveFocusDown(int i, int j){
+        if (j<YatzyCategories.values().length-1){
+            basicFocusMove(i,j,1,0);
+        }
+        else{
+            basicFocusMove(i,j,0,0);
+        }
+    }
+
+    public void basicFocusMove(int i, int j, int vertical, int horizontal){
+            YatzyPlayer p = players.get(i + horizontal);
+            JTextField tf = p.getTextField(j + vertical);
+            tf.requestFocus();
+    }
+
+    public void moveFocus(BiConsumer lambd){
+        int i = 0;
+        for(YatzyPlayer p : players){
+            List<JTextField> list = p.getTextFields();
+            int j =0;
+            for(JTextField tf : list){
+                if(tf.isFocusOwner()){
+                    lambd.accept(i,j);
+                    return;
+                }
+                j++;
+            }
+            i++;
+        }
+    }
+
+    public void keyReleased(KeyEvent e) {
+    }
+
+    public void keyTyped(KeyEvent e){
+
     }
 
     public static void main(String[] args) {
